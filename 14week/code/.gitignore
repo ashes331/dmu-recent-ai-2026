@@ -1,0 +1,14 @@
+# 가상환경
+.venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+.env
+
+# langgraph dev 가 만드는 로컬 상태
+.langgraph_api/
+
+# 에디터
+.vscode/
+.idea/

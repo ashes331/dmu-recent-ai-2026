@@ -1,0 +1,16 @@
+# 5주차 실습 패키지 — 프롬프트 심화와 LCEL
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+#    (LangChain은 버전 변화가 빠릅니다)
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+
+# pydantic 은 langchain-core 의존성으로 이미 들어옵니다.
+# 명시해 두면 버전 고정이 쉬워 남겨 둡니다.
+pydantic
+
+# ⚠️ 대비책 — 로컬 모델에서 with_structured_output 이 끝내 안 될 때
+#    실습 1·2를 OpenAI로 진행합니다 (4주차에 키 배포 완료).
+# langchain-openai

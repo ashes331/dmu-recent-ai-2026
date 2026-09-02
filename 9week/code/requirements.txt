@@ -1,0 +1,22 @@
+# 9주차 실습 패키지 — 도구 호출(Tool Calling)과 외부 연동
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+pydantic
+langsmith
+
+# ★ 이번 주 새로 설치하는 것 — 검색 도구가 여기에 들어 있습니다 (실습 2)
+langchain-community
+
+# 🔶 DuckDuckGo 검색 백엔드.
+#    ⚠️ 패키지명이 바뀐 이력이 있습니다 (duckduckgo-search → ddgs).
+#       수업 전날 1회 import 해 확정하십시오. ★
+#       둘 중 설치된 쪽을 langchain_community 가 알아서 씁니다.
+ddgs
+
+# 🔶 상용 API 비교용 (실습 2) — 배정 1순위 차시.
+#    키가 없으면 search_agent.py 는 로컬 모델만으로 돌아갑니다.
+langchain-openai

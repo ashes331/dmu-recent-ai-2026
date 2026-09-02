@@ -1,0 +1,14 @@
+# 가상환경
+.venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+.env
+
+# 실습 3 이 만드는 작업 폴더
+workspace/
+
+# 에디터
+.vscode/
+.idea/

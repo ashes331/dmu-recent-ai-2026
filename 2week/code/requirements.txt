@@ -1,0 +1,17 @@
+# 2주차 실습 패키지
+#
+# 실습 1 (로컬, 2교시) — ollama 만 있으면 됩니다.
+#   pip install ollama
+#
+# 실습 2·3·4 (Colab, 3교시)
+#   !pip install -q sentence-transformers
+#
+# 전부 로컬에서 돌리려면
+#   pip install -r requirements.txt
+#   ※ sentence-transformers 는 PyTorch 를 함께 설치합니다(용량 큼).
+#     실습실 PC에는 설치하지 않는 것이 2주차 기본 방침입니다.
+
+ollama>=0.4.0
+numpy>=1.26
+sentence-transformers>=3.0
+matplotlib>=3.8

@@ -1,0 +1,11 @@
+# 3주차 실습 패키지
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+#    (LangChain은 버전 변화가 빠릅니다)
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+
+# 실습 3(compare_sdk.py) — 공급자 전용 SDK 비교용
+ollama

@@ -1,0 +1,20 @@
+# 13주차 실습 패키지 — LangGraph (2) 에이전트 · 메모리 · HITL
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+#    ⚠️ interrupt / Command 는 LangGraph 에서 **변화가 특히 큰 영역**입니다.
+#       수업 전날 반드시 1회 실행해 확정하십시오. ★
+
+langchain
+langchain-core
+langchain-community
+langchain-ollama
+python-dotenv
+pydantic
+langsmith
+langgraph
+grandalf              # 그래프 시각화 (12주차와 동일)
+
+# ★ 실습 4 (Agentic RAG) — 10주차 인덱스를 이어 씁니다
+faiss-cpu
+
+# 🔶 (선택) 상용 API — 본 차시는 배정 2순위
+langchain-openai

@@ -1,0 +1,14 @@
+# 가상환경
+.venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+.env
+
+# 에디터
+.vscode/
+.idea/
+
+# ⚠️ index_recursive/ 는 커밋합니다! (.gitignore 에 넣지 마십시오)
+#    11주차 실습 1이 이 인덱스를 그대로 이어 씁니다. ★★

@@ -1,0 +1,18 @@
+# 14주차 실습 패키지 — LangGraph (3) 멀티 에이전트 · 스트리밍 · 서비스화
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+pydantic
+langsmith
+langgraph
+grandalf
+
+# ★ 이번 주 새로 설치하는 것 — 실습 3 (langgraph dev + Studio)
+#   🔶🔶 **이 절이 2교시 최대의 위험 지점입니다.**
+#        CLI 설치 · langgraph.json 경로 · 포트 충돌 · 브라우저 정책 등 변수가 많습니다.
+#        **반드시 실습실 PC 에서 사전 테스트**하고,
+#        안 되면 **교수 시연으로 전환**하십시오 — 20분을 통째로 날리지 마십시오. ★
+langgraph-cli[inmem]

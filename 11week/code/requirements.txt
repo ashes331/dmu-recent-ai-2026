@@ -1,0 +1,24 @@
+# 11주차 실습 패키지 — RAG (2) 벡터 저장소 · 검색 전략
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+
+langchain
+langchain-core
+langchain-community
+langchain-ollama
+langchain-text-splitters
+python-dotenv
+pydantic
+langsmith
+faiss-cpu            # 10주차에서 이어 씀
+numpy
+
+# ★ 이번 주 새로 설치하는 것
+langchain-chroma     # 1교시 — 메타데이터 필터 검색 시연
+chromadb
+rank_bm25            # 2교시 — 하이브리드 검색(BM25)
+                     # 💡 순수 파이썬 CPU 라이브러리라 VRAM 을 쓰지 않습니다.
+                     #    8GB 예산에 영향이 없습니다.
+
+# ⚠️ Re-ranking 모델(sentence-transformers 등)은 설치하지 않습니다.
+#    생성 LLM 5.0GB + 임베딩 0.3GB + KV 1.0GB ≒ 6.3GB 에 재정렬 1.1~2.2GB 를 더하면
+#    8GB 를 넘길 위험이 있습니다. **교수 PC 에서 시연만** 하십시오. ★

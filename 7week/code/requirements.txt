@@ -1,0 +1,22 @@
+# 7주차 실습 패키지 — LangSmith (2) 데이터셋과 평가
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+#    (LangChain·LangSmith 는 버전 변화가 빠릅니다)
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+pydantic
+
+# ★ 6주차와 같습니다. 새로 설치할 것은 없습니다.
+#   ⚠️ 다만 이번 주는 langsmith 의 API 두 개를 직접 씁니다.
+#        · client.create_examples()   — 인자 형태가 버전마다 다름
+#        · evaluate()                 — 평가자 시그니처가 버전마다 다름
+#      수업 전날 실습실 PC 에서 반드시 아래를 1회 실행해 확정하십시오. ★
+#        python check_eval_api.py
+langsmith
+
+# 🔶 LLM 판정자 비교용 (2교시 2-2) — 상용 API 배정 4순위.
+#    판정자에만, 소규모 데이터셋에만 사용합니다.
+#    키가 없으면 llm_judge.py 는 로컬 판정자만으로 돌아갑니다.
+langchain-openai

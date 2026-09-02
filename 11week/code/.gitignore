@@ -1,0 +1,14 @@
+# 가상환경
+.venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+.env
+
+# Chroma 가 만드는 로컬 DB (1교시 필터 검색 시연용 — 재생성 가능)
+chroma_db/
+
+# 에디터
+.vscode/
+.idea/

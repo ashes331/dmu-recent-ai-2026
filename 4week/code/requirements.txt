@@ -1,0 +1,17 @@
+# 4주차 실습 패키지
+# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
+#    (LangChain은 버전 변화가 빠릅니다)
+
+# ── 3주차에서 이미 설치한 것 ──
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+
+# ── 4주차에 새로 설치하는 것 ★ ──
+langchain-openai
+
+# ⚠️ langchain-anthropic 은 설치하지 않습니다.
+#    ChatAnthropic 은 Anthropic API 키가 필요하며,
+#    학생이 가진 Claude Code 구독 계정으로는 호출할 수 없습니다.
+#    본 차시 교체 실습은 [로컬 ↔ OpenAI] 2종으로 진행합니다.

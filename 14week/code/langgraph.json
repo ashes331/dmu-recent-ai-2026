@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "supervisor": "./supervisor.py:graph",
+    "hitl": "../../13week/code/hitl_agent.py:graph"
+  },
+  "env": ".env"
+}

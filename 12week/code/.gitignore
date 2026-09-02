@@ -1,0 +1,13 @@
+# 가상환경
+.venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+.env
+
+# 에디터
+.vscode/
+.idea/
+
+# ⚠️ graph.png / graph.mmd 는 과제 5 제출물입니다. 커밋하십시오. ★
