@@ -25,12 +25,12 @@
 # 1) 프로젝트 폴더 + 가상환경
 mkdir langchain-2026
 cd langchain-2026
-python -m venv .venv
+python -m venv venv
 
-# Windows
-.venv\Scripts\activate
+# Windows (PowerShell)
+venv\Scripts\activate
 # macOS / Linux
-# source .venv/bin/activate
+# source venv/bin/activate
 
 # 2) 패키지 설치
 pip install -r requirements.txt
@@ -54,6 +54,10 @@ python first_chain.py      # 3교시 실습 5  ★
 
 ## 주의
 
+- **PowerShell에서 활성화가 막히면** `이 시스템에서 스크립트를 실행할 수 없으므로...` 오류입니다.
+  최초 1회만 `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` 을 실행하십시오.
+- **환경 재생성은 PowerShell 문법으로**: `Remove-Item -Recurse -Force venv`
+  (`rmdir /s /q` 는 cmd.exe 전용이라 PowerShell에서는 동작하지 않습니다.)
 - 모든 파일은 `MODEL = "gemma3:4b"` 상수를 파일 상단에 두었습니다.
   실습실 모델이 다르면 **이 한 줄만** 고치면 됩니다.
 - `.env`는 **절대 커밋하지 않습니다.** `.env.example`만 커밋합니다.

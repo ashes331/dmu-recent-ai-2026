@@ -39,7 +39,7 @@ python rag_common.py        # 인덱스가 있는가 / metadata 키가 심겨 �
 ## 사전 준비
 
 ```bash
-.venv\Scripts\activate              # Windows
+venv\Scripts\activate              # Windows
 
 pip install -r requirements.txt     # ★ langchain-chroma · chromadb · rank_bm25 가 새로 추가
 

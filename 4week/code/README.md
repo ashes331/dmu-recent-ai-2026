@@ -25,7 +25,7 @@
 ```bash
 # 1) 3주차 저장소(과제 1)를 clone 하고 가상환경 활성화
 #    Windows
-.venv\Scripts\activate
+venv\Scripts\activate
 
 # 2) 4주차 패키지 설치 — langchain-openai 가 추가됩니다
 pip install -r requirements.txt

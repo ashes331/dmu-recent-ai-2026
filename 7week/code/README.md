@@ -31,9 +31,9 @@
 ```bash
 # 6주차까지 쓰던 가상환경을 그대로 사용합니다
 # Windows
-.venv\Scripts\activate
+venv\Scripts\activate
 # macOS / Linux
-# source .venv/bin/activate
+# source venv/bin/activate
 
 pip install -r requirements.txt     # ★ 새로 설치할 것은 없습니다
 

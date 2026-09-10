@@ -49,8 +49,8 @@
 
 ```bash
 # 예시
-python -m venv .venv
-.venv\Scripts\activate
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
 cp .env.example .env      # 키를 채운다
 python main.py

@@ -36,7 +36,7 @@ python agentic_rag.py    # 인덱스가 없으면 무엇을 해야 하는지 알
 ## 사전 준비
 
 ```bash
-.venv\Scripts\activate              # Windows
+venv\Scripts\activate              # Windows
 pip install -r requirements.txt     # ★ 12주차와 거의 같습니다
 cp .env.example .env                # Windows: copy .env.example .env
 # ★ TOOL_MODEL 은 9주차에서 확정한 값을 그대로 쓰십시오
