@@ -7,7 +7,9 @@
     1) temperature 0.0 은 같은 질문에 거의 같은 답을 준다
     2) max_tokens 는 '요약해줘'가 아니라 그 지점에서 '자른다'   ★
        문장 중간에서 끊기는 것을 눈으로 확인시킬 것
-    3) timeout / max_retries 는 로컬에서는 의미가 약하다 (네트워크를 안 타므로)
+    3) timeout / max_retries 는 로컬에서는 의미가 약하다 (인터넷을 안 타므로)
+       ⚠️ ChatOllama 는 max_tokens · timeout · max_retries 를 에러 없이 무시한다
+          → 로컬의 길이 제한은 num_predict (이 파일도 num_predict 로 자른다)
 
 실행:
     python common_params.py
@@ -73,6 +75,8 @@ def demo_timeout_and_retries() -> None:
         """
     ChatOpenAI(model="...", timeout=30)      # 30초 안에 응답 없으면 포기
     ChatOpenAI(model="...", max_retries=2)   # 일시적 오류면 2번까지 다시 건다
+
+    [주의] 둘 다 상용 API(ChatOpenAI)용입니다. ChatOllama 에 넣으면 에러 없이 무시됩니다.
 
         호출
           ├─ 성공 ─────────────────────▶ 끝

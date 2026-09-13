@@ -50,7 +50,7 @@
 ```bash
 # 예시
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 cp .env.example .env      # 키를 채운다
 python main.py

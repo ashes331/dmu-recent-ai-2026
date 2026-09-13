@@ -7,11 +7,18 @@
     B) .bind() 로 덧붙이기 — 모델 객체 하나로 설정만 다른 체인을 파생시킬 때  ★
        (같은 방식이 9주차 도구 호출 bind_tools 에서 다시 나옵니다)
 
-⚠️ 함정 — ChatOllama 의 .bind() 는 이름이 다릅니다  ★★
-    base.bind(temperature=0.9)              → TypeError 로 죽습니다
-    base.bind(options={"temperature": 0.9}) → 이렇게 써야 합니다
+⚠️ 함정 — 같은 .bind() 인데 공급자마다 받는 모양이 반대입니다  ★★
+    공급자 = 모델을 실제로 돌려 주는 쪽. 오늘은 Ollama(로컬 서버) · OpenAI(상용 API) 둘.
+    .bind() 는 값을 각 회사 라이브러리에 그대로 넘깁니다.
 
-    ChatOpenAI 는 base.bind(temperature=0.9) 가 그대로 됩니다.
+    Ollama (ChatOllama) — ollama 의 Client.chat() 이 받음. temperature 는 options={...} 안쪽
+        base.bind(temperature=0.9)              → TypeError 로 죽습니다
+        base.bind(options={"temperature": 0.9}) → 이렇게 써야 합니다
+
+    OpenAI (ChatOpenAI) — openai 의 chat.completions.create() 가 받음. temperature 는 맨 바깥 인자
+        base.bind(temperature=0.9)              → 그대로 됩니다
+        base.bind(options={"temperature": 0.9}) → 반대로 TypeError 로 죽습니다
+
     같은 .bind() 인데 공급자마다 받는 형태가 다른 것 — 오늘 1-3절의 주제가
     파라미터 이름뿐 아니라 .bind() 에서도 똑같이 나타납니다.
 
@@ -63,8 +70,11 @@ def main() -> None:
     #
     #    ⚠️ ChatOllama 에서는 options={...} 로 감싸야 합니다.  ★★
     #       base.bind(temperature=0.9) 로 쓰면 TypeError 로 죽습니다.
-    #       (bind 로 준 값이 Ollama 클라이언트에 그대로 전달되기 때문)
-    #       ChatOpenAI 는 base.bind(temperature=0.9) 가 그대로 됩니다.
+    #       (bind 로 준 값이 ollama 의 Client.chat() 에 그대로 전달되는데,
+    #        거기서 temperature 는 options={...} 안쪽에서만 받기 때문)
+    #       ChatOpenAI 는 반대입니다 — openai 의 chat.completions.create() 가
+    #       temperature 를 맨 바깥 인자로 받아서 bind(temperature=0.9) 가 되고,
+    #       bind(options={...}) 는 TypeError 로 죽습니다.
     #
     #    ⚠️ options 는 '덧붙이기'가 아니라 '통째 교체'입니다.
     #       생성자에서 준 num_predict·num_ctx 를 유지하려면 여기 같이 적어야 합니다.

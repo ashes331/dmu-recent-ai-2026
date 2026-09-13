@@ -9,7 +9,7 @@
 
     ① 가중치(GB) = 파라미터 수(B) × 실효 비트수 ÷ 8
                     Q4_K_M 의 실효 비트는 4가 아니라 약 4.5    ★
-    ② KV 캐시     = 파라미터 1B · 컨텍스트 1K 당 대략 16MB
+    ② KV 캐시     = 파라미터 1B · 컨텍스트 1K 당 대략 12.5MB
     ③ 오버헤드    = CUDA 컨텍스트·런타임으로 0.5 ~ 1GB
 
 ⚠️ 전부 어림값입니다. 모델 구조(GQA 여부, 비전 인코더 유무)에 따라 달라집니다.
@@ -18,7 +18,10 @@
 
 실행:
     python vram_calc.py                    # 슬라이드의 4B·8B·12B 표를 출력
-    python vram_calc.py 4.3 4096           # 내 화면의 값으로 계산 (ollama show)
+    python vram_calc.py 4.3 4096           # 내 화면의 값으로 계산
+                                           #   4.3  = ollama show 의 parameters
+                                           #   4096 = ollama ps 의 CONTEXT (실제 창)
+                                           #   ⚠️ ollama show 의 context length(131072)는 최대치 — 넣지 말 것
 """
 
 import sys
@@ -26,7 +29,7 @@ import sys
 # 실습실 PC 기준
 VRAM_GB = 8.0
 
-# Q4_K_M 의 실효 비트수. 레이어별로 비트를 다르게 배분하므로 4가 아니다  ★
+# Q4_K_M 의 실효 비트수. 중요한 부분에 더 높은 비트를 섞으므로 4가 아니다  ★
 EFFECTIVE_BITS = 4.5
 
 # 파라미터 1B · 컨텍스트 1K 당 KV 캐시 (GB) — 어림값 (약 12~13MB)
@@ -95,7 +98,8 @@ def main() -> None:
     print("   인터넷 가이드가 권하는 모델이라도, 판단은 내 하드웨어 기준으로.")
     print()
     print("※ 내 모델로 계산하려면:  python vram_calc.py <파라미터수> <컨텍스트>")
-    print("   예)  ollama show gemma3:4b  →  python vram_calc.py 4.3 8192")
+    print("   예)  show 의 parameters 4.3B · ps 의 CONTEXT 4096  →  python vram_calc.py 4.3 4096")
+    print("   (show 의 context length 131072 는 최대치입니다. 계산에 넣지 마세요)")
 
 
 if __name__ == "__main__":

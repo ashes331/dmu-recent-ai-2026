@@ -24,7 +24,7 @@
 ## 사전 준비
 
 ```bash
-venv\Scripts\activate              # Windows
+venv\Scripts\Activate.ps1          # Windows
 pip install -r requirements.txt     # ★ langgraph-cli[inmem] 가 새로 추가됩니다
 cp .env.example .env                # Windows: copy .env.example .env
 ```

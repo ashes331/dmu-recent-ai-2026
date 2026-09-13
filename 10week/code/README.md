@@ -34,7 +34,7 @@
 
 ```bash
 # 9주차까지 쓰던 가상환경을 그대로 사용합니다
-venv\Scripts\activate              # Windows
+venv\Scripts\Activate.ps1          # Windows
 
 pip install -r requirements.txt     # ★ pypdf · beautifulsoup4 · faiss-cpu 가 새로 추가됩니다
 
