@@ -11,6 +11,7 @@ rem
 rem  하는 일
 rem    1) 환경변수 dl026_HOME_DIR 위치로 이동
 rem    2) 만들 폴더 이름을 입력받아 생성
+rem       + .gitignore 생성 (venv/ · .env 가 git 에 올라가지 않게 · 이미 있으면 그대로)
 rem    3) python -m venv venv 생성 → 활성화
 rem    4) 2~3주차에 pip install 했던 패키지 설치
 rem    5) 나머지(VS Code·Git·.env·Ollama)는 명령어만 화면에 안내
@@ -104,6 +105,32 @@ if /i "%ANS%"=="n" goto :ask_name
 if exist "%PROJ_DIR%\" echo   [i] 이미 있는 폴더입니다 — 그대로 사용합니다.
 if not exist "%PROJ_DIR%\" mkdir "%PROJ_DIR%"
 cd /d "%PROJ_DIR%" || goto :bad_home
+
+rem .gitignore — venv/ · .env 가 git 에 올라가지 않게 (3주차 과제 1 견본 code/.gitignore 와 같은 내용)
+rem  이미 있으면(되살린 저장소 등) 건드리지 않는다. 안내 [4-A] 는 pull 전에 이 파일을 지우게 한다 —
+rem  추적되지 않은 .gitignore 가 있으면 내용이 같아도 git pull 이 멈추기 때문
+rem  ※ 괄호 블록 ( … ) 로 한 번에 쓰면 한글 때문에 뒤의 goto 가 레이블을 못 찾는다 — 한 줄씩 >> 로 쓴다
+if exist ".gitignore" goto :gitignore_exists
+> ".gitignore" echo # 가상환경
+>>".gitignore" echo venv/
+>>".gitignore" echo __pycache__/
+>>".gitignore" echo *.pyc
+>>".gitignore" echo(
+>>".gitignore" echo # 환경변수 — 절대 커밋 금지 ★
+>>".gitignore" echo .env
+>>".gitignore" echo(
+>>".gitignore" echo # 에디터
+>>".gitignore" echo .vscode/
+>>".gitignore" echo .idea/
+if not exist ".gitignore" goto :gitignore_fail
+echo   [OK] .gitignore 생성 — venv/ · .env 가 git 에 올라가지 않게
+goto :gitignore_done
+:gitignore_exists
+echo   [i] .gitignore 가 이미 있습니다 — 그대로 둡니다.
+goto :gitignore_done
+:gitignore_fail
+echo   [!] .gitignore 를 만들지 못했습니다 — 안내 [4-B] 전에 직접 만드세요.
+:gitignore_done
 echo(
 
 rem ── [3/4] venv 생성 → 활성화 ───────────────────────────────────────────────
@@ -170,6 +197,11 @@ echo(
 echo     ※ "이 시스템에서 스크립트를 실행할 수 없으므로..." 가 나오면 (최초 1회)
 echo     Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 echo(
+echo     ※ Git Bash 라면 위 명령 대신 — 이 venv 를 그대로 켤 수 있습니다
+echo     source venv/Scripts/activate
+echo     which python              ← .../venv/Scripts/python 인지 확인
+echo     (venv 가 아니면)  export PATH="$PWD/venv/Scripts:$PATH"
+echo(
 echo [3] VS Code 인터프리터 지정
 echo     Ctrl+Shift+P → Python: Select Interpreter → .\venv\Scripts\python.exe
 echo(
@@ -185,13 +217,13 @@ echo     git config --local user.email "본인메일@example.com"
 echo(
 echo   [4-A] GitHub 에 3주차 저장소가 이미 있는 경우 ★ 대부분 여기
 echo     git remote add origin https://github.com/^<본인계정^>/langchain-2026.git
+echo     Remove-Item .gitignore    ← 스크립트가 만든 것 — 지우지 않으면 pull 이 멈춥니다
 echo     git pull origin main
 echo     git branch -u origin/main
 echo     git status                ← venv/ 가 목록에 보이면 안 됩니다
 echo(
 echo   [4-B] 저장소가 없는 경우 (처음부터)
-echo     VS Code 탐색기 → 새 파일 → .gitignore
-echo       내용: venv/  __pycache__/  *.pyc  .env  .vscode/  .idea/   (한 줄에 하나씩)
+echo     Get-Content .gitignore    ← 스크립트가 만들어 둔 것 — venv/ · .env 가 있는지 확인
 echo     pip freeze ^> requirements.txt
 echo     git add .
 echo     git status                ← venv/ 와 .env 가 없어야 합니다

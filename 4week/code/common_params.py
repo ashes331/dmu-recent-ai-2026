@@ -9,6 +9,7 @@
        문장 중간에서 끊기는 것을 눈으로 확인시킬 것
     3) timeout / max_retries 는 로컬에서는 의미가 약하다 (인터넷을 안 타므로)
        ⚠️ ChatOllama 는 max_tokens · timeout · max_retries 를 에러 없이 무시한다
+          (max_tokens 무시는 2교시 bind_params.py ④에서 실측했다)
           → 로컬의 길이 제한은 num_predict (이 파일도 num_predict 로 자른다)
 
 실행:
@@ -86,6 +87,11 @@ def demo_timeout_and_retries() -> None:
 
     [주의] 재시도가 듣는 것은 '일시적' 오류뿐입니다.
        잘못된 키·없는 모델명은 몇 번을 걸어도 실패합니다. → 그때 필요한 것이 폴백.
+
+    [추가] 재시도 간격 - 지수 백오프(Exponential Backoff)
+       바로 다시 걸지 않고, 실패할 때마다 기다리는 시간을 2배로 늘립니다.
+       0.5초 → 1초 → 2초 → 4초 → 8초(상한)   (실제로는 0.75~1.0배로 조금씩 흔듦 = 지터)
+       max_retries 만 쓰면 openai 라이브러리가 이미 해 줍니다. 직접 짤 필요 없음.
     """
     )
 
