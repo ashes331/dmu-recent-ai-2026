@@ -19,9 +19,8 @@
 ★ batch() 에 '같은 입력을 N개' 넣는 것이 이 실습의 요령이다.
     [{"question": Q}] * N   ← 이 한 줄이 Self-Consistency 의 구현이다.
 
-🔶 사전 준비 필수: 답이 갈려야 의미가 있다.
-   아래 QUESTIONS 후보를 미리 5회씩 돌려 보고, 표가 갈리는 것을 골라 배포할 것.
-   전원 만장일치면 이 절이 밋밋해진다.
+⚠️ 만장일치가 나오면 다수결의 의미가 보이지 않는다.
+   그때는 temperature 를 올리거나 아래 QUESTIONS 의 다른 문제로 바꿔 본다.
 
 실행:
     python self_consistency.py 0        # ★ 먼저 이걸로 — 만장일치가 나온다
@@ -38,9 +37,9 @@ from pydantic import BaseModel, Field
 MODEL = "gemma3:4b"
 N = 5  # ⚠️ 로컬 GPU 여력을 고려해 5 정도로 제한
 TEMP = float(sys.argv[1]) if len(sys.argv) > 1 else 0.8  # ★ 0이면 다수결이 무의미하다
-MAX_CONCURRENCY = 2  # ⚠️ 8GB VRAM 실습실 보호 — 2~3으로 제한 🔶
+MAX_CONCURRENCY = 2  # ⚠️ 8GB VRAM 보호 — 2~3으로 제한
 
-# 🔶 답이 갈리는 문제 후보 — 수업 전에 각각 5회씩 돌려 보고 하나를 고를 것
+# 답이 갈리기 쉬운 문제 후보 3개 — 아래 QUESTION 에서 하나를 골라 쓴다
 QUESTIONS = [
     # ① 산술 추론 — 중간에 미끄러지기 쉬운 다단계 계산
     "한 상자에 사과가 12개씩 들어 있다. 상자 7개를 사서 그중 5개를 이웃에게 나눠 주고, "

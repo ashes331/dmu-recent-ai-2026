@@ -86,7 +86,7 @@ def main() -> None:
     llm = ChatOllama(model=MODEL, temperature=TEMP)
     chain = prompt | llm.with_structured_output(Review)
 
-    # 🔶 방식이 잘 안 맞으면 명시적으로 지정한다 (3-3절 참고)
+    # ⚠️ 방식이 잘 안 맞으면 명시적으로 지정한다 (3-3절 참고)
     #    chain = prompt | llm.with_structured_output(Review, method="json_schema")
 
     result = chain.invoke({"review": REVIEW})

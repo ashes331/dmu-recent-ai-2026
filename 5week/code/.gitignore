@@ -1,0 +1,12 @@
+# 가상환경
+venv/
+__pycache__/
+*.pyc
+
+# 환경변수 — 절대 커밋 금지 ★
+# 4교시에 SLACK_BOT_TOKEN 이 추가되었습니다. 토큰은 비밀번호와 같습니다.
+.env
+
+# 에디터
+.vscode/
+.idea/

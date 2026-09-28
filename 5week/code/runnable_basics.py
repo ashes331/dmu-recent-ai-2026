@@ -22,6 +22,8 @@
     python runnable_basics.py
 """
 
+import time
+
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda, RunnableParallel, RunnablePassthrough
@@ -30,6 +32,38 @@ from langchain_ollama import ChatOllama
 MODEL = "gemma3:4b"
 
 llm = ChatOllama(model=MODEL, temperature=0)
+
+
+# ══════════════════════════════════════════════════
+# 1-1-b. 왜 «언어(Language)»인가 — 조립과 실행은 다른 시점이다 ★
+# ══════════════════════════════════════════════════
+def demo_build_vs_run() -> None:
+    """파이프는 실행이 아니라 «설계도» 를 만든다.
+
+    조립 한 줄은 밀리초, invoke 한 줄은 초 단위가 걸린다.
+    조립 시점에는 모델이 한 번도 불리지 않는다는 것을 시간으로 보여 준다.
+    """
+    prompt = ChatPromptTemplate.from_template("{topic} 을 한 문장으로 요약해줘.")
+
+    print("── 조립과 실행은 «다른 시점» 이다 ──────────")
+
+    t0 = time.perf_counter()
+    chain = prompt | llm | StrOutputParser()          # ← 모델 호출 0회
+    build_ms = (time.perf_counter() - t0) * 1000
+
+    print(f"   조립  chain = prompt | llm | parser   →  {build_ms:8.3f} ms   ← 모델 호출 0회")
+
+    t0 = time.perf_counter()
+    text = chain.invoke({"topic": "LCEL"})            # ← 여기서 «처음» 불린다
+    run_s = time.perf_counter() - t0
+
+    print(f"   실행  chain.invoke({{...}})              →  {run_s:8.3f} s    ← 여기서 처음 호출")
+    print()
+    print("  ", text[:70], "...")
+    print()
+    print("  ★ 파이프를 쓰는 순간에는 아무 일도 일어나지 않는다. 설계도만 만들어진다.")
+    print("     구조가 남아 있기 때문에 batch · stream · 추적 · 폴백이 공짜로 따라온다.")
+    print("  ⚠️ 대신 문장 '안' 에 if / while 을 넣을 수 없다 → 순환은 LangGraph (12주차)")
 
 
 # ══════════════════════════════════════════════════
@@ -134,7 +168,13 @@ def demo_parallel() -> None:
 
 
 def main() -> None:
-    for fn in (demo_chain_is_runnable, demo_runnable_lambda, demo_assign, demo_parallel):
+    for fn in (
+        demo_build_vs_run,
+        demo_chain_is_runnable,
+        demo_runnable_lambda,
+        demo_assign,
+        demo_parallel,
+    ):
         fn()
         print()
         print("=" * 60)

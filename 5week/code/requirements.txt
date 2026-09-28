@@ -1,6 +1,5 @@
 # 5주차 실습 패키지 — 프롬프트 심화와 LCEL
-# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
-#    (LangChain은 버전 변화가 빠릅니다)
+# ⚠️ LangChain 은 버전 변화가 빠릅니다. 실습실과 같은 버전을 쓰는 것이 안전합니다.
 
 langchain
 langchain-core
@@ -12,5 +11,10 @@ python-dotenv
 pydantic
 
 # ⚠️ 대비책 — 로컬 모델에서 with_structured_output 이 끝내 안 될 때
-#    실습 1·2를 OpenAI로 진행합니다 (4주차에 키 배포 완료).
+#    실습 1·2를 OpenAI로 진행합니다 (4주차에 받은 키를 씁니다).
 # langchain-openai
+
+# ── (추가) 4교시 Slack API ★ ─────────────────────────────────
+# 공식 파이썬 SDK. ⚠️ slackclient 는 구버전이므로 설치하지 말 것.
+slack_sdk
+# python-dotenv 는 위에 이미 있습니다 (.env 에서 SLACK_BOT_TOKEN 을 읽습니다).
