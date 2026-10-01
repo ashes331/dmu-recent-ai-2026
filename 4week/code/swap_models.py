@@ -17,6 +17,10 @@
 ⚠️ ChatAnthropic 은 쓰지 않습니다.
    Anthropic API 키가 필요하며, Claude Code 구독 계정으로는 호출할 수 없습니다.
 
+화면 표기 — 모델이 만든 문장과 코드가 찍는 설명을 섞어 읽지 않도록 구분합니다
+    [모델 응답] · | 로 시작하는 줄   모델이 실제로 만들어 낸 문장
+    그 밖의 줄                       코드가 찍는 설명 · 측정값
+
 실행:
     python swap_models.py                      # 측정 (모델 6번 호출)
     python swap_models.py cost 60 150          # 계산만 — 모델을 부르지 않는다
@@ -41,8 +45,8 @@ sys.stdout.reconfigure(errors="replace")
 load_dotenv()  # .env 에서 OPENAI_API_KEY 를 읽는다  ★
 
 # ── ① 고칠 수 있는 값은 모두 여기에 ─────────────────────────
-LOCAL_MODEL = "gemma3:4b"
-LOCAL_SMALL = "gemma3:1b"  # 상용 키를 못 쓸 때의 대체 비교용
+LOCAL_MODEL = "gemma3:1b"
+LOCAL_SMALL = "gemma3:4b"  # 상용 키를 못 쓸 때의 대체 비교용
 
 # 🔶 상용 모델명은 자주 바뀝니다. 수업 전날 공식 문서에서 확인해 확정할 것 ★
 OPENAI_MODEL = "gpt-4o-mini"
@@ -88,6 +92,17 @@ TASKS = [
                     "풀이를 쓰고 마지막 줄에 숫자만 써라.",
     },
 ]
+
+
+def says(text: str) -> None:
+    """모델이 실제로 만들어 낸 문장 — 설명·측정값과 구분해서 찍는다 (2교시 bind_params.py 와 같은 표기)"""
+    lines = text.strip().splitlines()
+    if len(lines) <= 1:
+        print(f"  [모델 응답] {lines[0] if lines else '(빈 응답)'}")
+        return
+    print("  [모델 응답] ↓")
+    for line in lines:
+        print(f"  |  {line}")
 
 
 def check_answer(task: dict, text: str) -> str:
@@ -196,7 +211,7 @@ def run_one(name: str, llm, task: dict, show_keys: bool) -> dict:
     print("=" * 64)
     print(f"[과제 {task['id']} {task['name']}] {name}")
     print("=" * 64)
-    print(text.strip())
+    says(text)
     print()
     print(f"  정답 확인      : {result}")
     print(f"  usage_metadata : {usage or '(측정 불가)'}")
@@ -281,6 +296,9 @@ def main() -> None:
         print_month(*numbers)
         return
 
+    print("[표시 약속] [모델 응답] 로 시작하는 줄과 그 아래 | 로 시작하는 줄만 모델이 만든 문장입니다.")
+    print("            나머지는 코드가 찍는 설명·측정값입니다.")
+    print()
     models, has_key = build_models()
     rows = []
     for task in TASKS:  # 과제 → 모델 순서. 로컬 첫 호출(과제 ①)에 로딩이 들어간다

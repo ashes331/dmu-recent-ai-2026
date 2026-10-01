@@ -13,6 +13,10 @@
     2) ⚠️ 그래서 장애가 '조용히' 묻힙니다.
        어떤 모델이 실제로 응답했는지 기록해야 합니다 → 6주차 LangSmith
 
+화면 표기 — 모델이 만든 문장과 코드가 찍는 설명을 섞어 읽지 않도록 구분합니다
+    [모델 응답] · | 로 시작하는 줄   모델이 실제로 만들어 낸 문장
+    그 밖의 줄                       코드가 찍는 설명 · 측정값
+
 실행:
     python fallback.py
 """
@@ -32,7 +36,7 @@ sys.stdout.reconfigure(errors="replace")
 
 load_dotenv()
 
-LOCAL_MODEL = "gemma3:4b"
+LOCAL_MODEL = "gemma3:1b"
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -42,6 +46,17 @@ prompt = ChatPromptTemplate.from_messages(
 )
 parser = StrOutputParser()
 INPUTS = {"level": "초보자", "topic": "파이썬"}
+
+def says(text: str) -> None:
+    """모델이 실제로 만들어 낸 문장 — 설명·측정값과 구분해서 찍는다 (2교시 bind_params.py 와 같은 표기)"""
+    lines = text.strip().splitlines()
+    if len(lines) <= 1:
+        print(f"  [모델 응답] {lines[0] if lines else '(빈 응답)'}")
+        return
+    print("  [모델 응답] ↓")
+    for line in lines:
+        print(f"  |  {line}")
+
 
 def build_primary():
     """주 모델 — 일부러 실패하게 만든다 ★
@@ -66,6 +81,9 @@ def build_primary():
 
 
 def main() -> None:
+    print("[표시 약속] [모델 응답] 로 시작하는 줄과 그 아래 | 로 시작하는 줄만 모델이 만든 문장입니다.")
+    print("            나머지는 코드가 찍는 설명·측정값입니다.")
+    print()
     primary_name, primary = build_primary()
 
     # ── 대체 모델: 로컬 ──
@@ -85,7 +103,7 @@ def main() -> None:
     # (파서를 빼면 AIMessage 가 오고, 거기에 실제 응답 모델이 적혀 있습니다.
     #  parser.invoke(msg) 가 곧 chain 끝의 parser 가 하던 일입니다.)
     msg = (prompt | llm).invoke(INPUTS)
-    print(parser.invoke(msg))
+    says(parser.invoke(msg))
 
     # ── ⚠️ 폴백의 대가 — 누가 대답했는지 확인해 봅시다 ──────
     meta = msg.response_metadata or {}

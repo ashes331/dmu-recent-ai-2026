@@ -14,6 +14,10 @@
 🔶 실습 직전 확인: 로컬 모델이 메모리에서 내려가 있으면 첫 토큰까지가 크게 늘어납니다
    (모델 로딩 시간이 포함되므로).  ollama ps 로 올라와 있는지 확인하세요. (1교시)
 
+화면 표기 — 모델이 만든 문장과 코드가 찍는 설명을 섞어 읽지 않도록 구분합니다
+    [모델 응답] · | 로 시작하는 줄   모델이 실제로 만들어 낸 문장
+    그 밖의 줄                       코드가 찍는 설명 · 측정값
+
 실행:
     python streaming.py
 """
@@ -52,7 +56,7 @@ def measure_invoke(chain) -> float:
     t0 = time.perf_counter()
     chain.invoke(INPUTS)
     total = time.perf_counter() - t0
-    print(f"[invoke] 총 {total:.2f}초 (그동안 화면은 조용했습니다)")
+    print(f"[invoke] 총 {total:.2f}초 (답은 다 받았지만 화면에 찍지 않았습니다)")
     return total
 
 
@@ -61,14 +65,18 @@ def measure_stream(chain) -> tuple:
     t0 = time.perf_counter()
     first = None
 
+    # 조각이 오는 대로 그대로 찍히므로, 어디까지가 모델이 쓴 글인지 앞뒤로 표시해 둔다
+    print("  [모델 응답] ↓ 오는 대로 찍습니다")
     for chunk in chain.stream(INPUTS):  # ★ invoke → stream, 이것뿐입니다
         if first is None and chunk:
             first = time.perf_counter() - t0  # 첫 글자가 도착한 시각
         print(chunk, end="", flush=True)
+    print()
+    print("  [모델 응답 끝]")
 
     total = time.perf_counter() - t0
     ttft = f"{first:.2f}초" if first is not None else "측정 불가"
-    print(f"\n[stream] 첫 토큰까지 {ttft} / 총 {total:.2f}초")
+    print(f"[stream] 첫 토큰까지 {ttft} / 총 {total:.2f}초")
     return first, total
 
 
@@ -93,6 +101,9 @@ def run(name: str, llm) -> dict:
 
 
 def main() -> None:
+    print("[표시 약속] [모델 응답] 로 시작하는 줄과 그 아래 | 로 시작하는 줄만 모델이 만든 문장입니다.")
+    print("            나머지는 코드가 찍는 설명·측정값입니다.")
+    print()
     models = {f"로컬 {LOCAL_MODEL}": ChatOllama(model=LOCAL_MODEL, temperature=0.2)}
     if os.getenv("OPENAI_API_KEY"):
         models[f"OpenAI {OPENAI_MODEL}"] = ChatOpenAI(model=OPENAI_MODEL, temperature=0.2)

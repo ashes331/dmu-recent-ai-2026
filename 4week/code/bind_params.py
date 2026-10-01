@@ -26,6 +26,11 @@
     ⑤ ChatOpenAI(num_predict=300) — 경고 후 model_kwargs 로 옮겨져 요청에 실린다 (키가 있을 때만)
     ⑥ 이름 확인                    — 그 클래스가 아는 이름인가 (model_fields)
 
+화면 표기 — 설명 문구와 실제 호출 결과를 섞어 읽지 않도록 줄머리로 구분합니다
+    [모델 응답]  모델이 실제로 만들어 낸 문장
+    [실측]       실제 호출·조회에서 나온 값 (토큰 수 · done_reason · 예외 · 경고 · 설정값)
+    그 밖의 줄    코드가 그냥 찍는 설명 (→ 로 시작하는 줄 포함)
+
 실행:
     python bind_params.py
 """
@@ -45,7 +50,8 @@ sys.stdout.reconfigure(errors="replace")
 load_dotenv()  # .env 에서 OPENAI_API_KEY 를 읽는다
 
 # 실습실 모델이 다르면 이 한 줄만 고친다
-MODEL = "gemma3:4b"
+MODEL = "gemma3:1b"
+#MODEL = "gemma3:4b"
 
 # 🔶 상용 모델명은 수업 전날 공식 문서에서 확인해 확정할 것
 OPENAI_MODEL = "gpt-4o-mini"
@@ -58,6 +64,22 @@ def title(text: str) -> None:
     print("=" * 60)
     print(text)
     print("=" * 60)
+
+
+def says(text: str) -> None:
+    """모델이 실제로 만들어 낸 문장 — 설명·측정값과 구분해서 찍는다"""
+    lines = text.strip().splitlines()
+    if len(lines) <= 1:
+        print(f"  [모델 응답] {lines[0] if lines else '(빈 응답)'}")
+        return
+    print("  [모델 응답] ↓")
+    for line in lines:
+        print(f"  |  {line}")
+
+
+def measured(text: str) -> None:
+    """실제 호출·조회에서 나온 값 — 코드가 그냥 찍는 설명이 아니다"""
+    print(f"  [실측]      {text}")
 
 
 def demo_bind() -> None:
@@ -73,7 +95,7 @@ def demo_bind() -> None:
     short = base.bind(options={"temperature": 0.2, "num_predict": 60})
 
     answer = short.invoke(QUESTION).content.replace("\n", " ")
-    print(f"  {answer[:90]}...")
+    says(f"{answer[:90]}...")  # 이 줄만 모델이 쓴 문장입니다 (90자에서 끊었습니다)
 
 
 def demo_openai_options(has_key: bool) -> None:
@@ -86,7 +108,7 @@ def demo_openai_options(has_key: bool) -> None:
     try:
         ChatOpenAI(model=OPENAI_MODEL).bind(options={"temperature": 0.9}).invoke("hi")
     except TypeError as e:
-        print(f"  TypeError: {e}")
+        measured(f"TypeError: {e}")
         print("  → 요청을 보내기 전에 파이썬에서 막힙니다. 비용은 0원입니다.")
 
 
@@ -100,7 +122,7 @@ def demo_silent_ignore() -> None:
         msg = llm.invoke(QUESTION)
         out = (msg.usage_metadata or {}).get("output_tokens")
         reason = msg.response_metadata.get("done_reason")
-        print(f"  {label} → 출력 {out} 토큰 · done_reason={reason}")
+        measured(f"{label} → 출력 {out} 토큰 · done_reason={reason}")
 
     print("  → 두 줄 모두 에러가 없었습니다. 10에서 잘린 것(length)은 num_predict 쪽뿐입니다.")
     print("    에러가 나면 다행이고, 조용히 무시되면 위험합니다.")
@@ -117,8 +139,8 @@ def demo_openai_name_warning(has_key: bool) -> None:
         llm = ChatOpenAI(model=OPENAI_MODEL, num_predict=300)  # 만들기만 — 호출하지 않는다
 
     for w in caught:
-        print(f"  [경고] {' '.join(str(w.message).split())}")
-    print(f"  model_kwargs = {llm.model_kwargs}  ← 이 값이 요청 본문에 그대로 실립니다")
+        measured(f"경고 — {' '.join(str(w.message).split())}")
+    measured(f"model_kwargs = {llm.model_kwargs}  ← 이 값이 요청 본문에 그대로 실립니다")
     print("  → 조용히 무시되지는 않지만 OpenAI 가 모르는 이름입니다. OpenAI 이름은 max_tokens")
 
 
@@ -127,12 +149,15 @@ def demo_fields() -> None:
     for cls in (ChatOllama, ChatOpenAI):
         for name in ("num_predict", "max_tokens"):
             known = "있음" if name in cls.model_fields else "없음"
-            print(f"  {cls.__name__:<11} '{name}' : {known}")
+            measured(f"{cls.__name__:<11} '{name}' : {known}")
 
 
 def main() -> None:
     has_key = bool(os.getenv("OPENAI_API_KEY"))
 
+    print("[표시 약속] [모델 응답] = 모델이 실제로 만든 문장 · [실측] = 실제 호출에서 나온 값")
+    print("            그 밖의 줄은 코드가 찍는 설명입니다.")
+    print()
     print("[방법 A · 1교시 복습] 생성자에 지정 - ChatOllama(model=..., temperature=0.2, num_predict=300)")
     print("                     1교시 my_bot.py 에서 해 봤으므로 여기서는 호출하지 않습니다.")
 

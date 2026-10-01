@@ -9,8 +9,8 @@
 
 | 실습 | 교시 | 파일 | 내용 |
 |------|------|------|------|
-| 셋팅 | 1교시 전 | [`setup_env.bat`](setup_env.bat) | **PC 초기화 복구** — venv 생성 + `.gitignore` 생성 + 2~3주차 패키지 설치 + 이후 명령 안내 |
-| 셋팅 (Git Bash) | 1교시 전 | [`setup_env.sh`](setup_env.sh) | 위와 같은 일을 **Git Bash** 에서 — `bash setup_env.sh`, 이후 안내도 Git Bash 명령(`source venv/Scripts/activate` 등) |
+| 셋팅 | 1교시 전 | [`setup_env.bat`](setup_env.bat) | **PC 초기화 복구** — venv + `.gitignore` + (2026-09-21 수정) **2~4주차 패키지(`langchain-openai==1.6.2`)** + (2026-09-21 추가) **[5/5] Git 설정**(이름 · 메일 · 저장소 주소 입력 → `--local`) + 이후 명령 안내 |
+| 셋팅 (Git Bash) ★ | 1교시 전 | [`setup_env.sh`](setup_env.sh) | **VS Code 터미널을 Git Bash 로 열고 `bash setup_env.sh`** — venv · `.gitignore` · (2026-09-21 수정) **2~4주차 패키지(`langchain-openai==1.6.2` 포함)** · (2026-09-21 추가) **[5/5] Git 설정**(`git init` + 이름 · 메일 · 저장소 주소를 입력받아 `--local` 로 지정)까지 합니다. 남은 명령(VS Code · `pull`/`push` · `.env` · Ollama)만 Git Bash 명령으로 안내 |
 | 확인 B | 1교시 | [`vram_calc.py`](vram_calc.py) | VRAM 요구량 어림 계산 (손계산 검산용) |
 | **실습 0** ★ | 1교시 | [`Modelfile`](Modelfile) | **나만의 챗봇 만들기** — `ollama create py-tutor -f Modelfile` |
 | 실습 0-③ ★★ | 1교시 | [`my_bot.py`](my_bot.py) | 만든 챗봇을 `ChatOllama` 로 부르기 — **코드 설정이 Modelfile 을 이긴다** |
@@ -32,7 +32,11 @@
 > venv 생성 · 2~3주차 패키지 설치를 자동으로 하고, 이후 할 명령(VS Code · Git 복구 · `.env`)을 화면에 출력합니다.
 > 자세한 내용은 1교시 PPT 2·3장 · 배포 1교시 0절.
 > Git Bash 를 쓴다면 같은 일을 하는 `setup_env.sh` 를 Git Bash 에서 `bash setup_env.sh` 로 실행합니다.
-> (2026-09-14 추가) 두 스크립트는 프로젝트 폴더에 `.gitignore` 도 만들어 둡니다(이미 있으면 그대로). 3주차 저장소를 `git pull` 로 되살릴 때는 **먼저 `Remove-Item .gitignore`**(Git Bash: `rm .gitignore`) — 화면 안내 [4-A] 에 있습니다.
+> (2026-09-14 추가) 두 스크립트는 프로젝트 폴더에 `.gitignore` 도 만들어 둡니다(이미 있으면 그대로). 3주차 저장소를 `git pull` 로 되살릴 때는 그 파일이 있으면 `pull` 이 멈춥니다.
+> (2026-09-22 수정) **지우지 말고 옮깁니다** — `Rename-Item .gitignore .gitignore.bak`(Git Bash: `mv .gitignore .gitignore.bak`) → `git pull` → 성공하면 `.bak` 삭제, **실패하면 되돌리기**. 화면 안내 [4-A] 에 있습니다.
+> 지웠다가 `pull` 이 실패하면 `.gitignore` 없이 남고, 그 상태의 `git add .` 은 `.env`(공용 키)와 `venv/`(실측 8,822개 파일)를 스테이징합니다.
+> (2026-09-21 추가) **두 스크립트 모두 4단계가 아니라 5단계입니다** — `langchain-openai` 까지 설치하고, 이어서 `git init` · `user.name` · `user.email` · `origin` 을 **입력받아** 지정합니다.
+> 즉 아래 «2) 4주차 패키지 설치» 와 화면 안내 [4] 의 git 설정 줄은 `.sh` 로 셋팅했다면 **이미 끝난 상태**입니다. 남는 것은 `pull` 또는 첫 `push` 뿐입니다(계정 인증이 필요해 자동으로 하지 않습니다).
 
 ```bash
 # 1) 3주차 저장소(과제 1)를 clone 하고 가상환경 활성화
