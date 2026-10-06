@@ -20,7 +20,7 @@
 | **실습 2** ★ | 2교시 | [`비교표_양식.md`](비교표_양식.md) | 6기준 비교표 작성 — 표 A 정답 확인 · 표 B 6기준, 칸마다 [측정]·[계산]·[판단] (저장소 커밋) |
 | — | 3교시 | [`common_params.py`](common_params.py) | `temperature`·`max_tokens`·`timeout`·`max_retries` |
 | **실습 3** | 3교시 | [`fallback.py`](fallback.py) | 상용 실패 → 로컬 대체 (`with_fallbacks`) |
-| **실습 4** ★ | 3교시 | [`streaming.py`](streaming.py) | 첫 토큰 지연 측정 → **비교표 완성** |
+| **실습 4** ★ | 3교시 | [`streaming.py`](streaming.py) | 첫 토큰 지연 측정 · invoke vs stream 비교 |
 
 > 학생 저장소에서는 `week04/` 경로에 두게 합니다.
 > 1교시의 `ollama list`·`show`·`ps` 는 터미널에서 직접 칩니다.
@@ -103,7 +103,7 @@ python swap_models.py cost 입력토큰 출력토큰 하루사용자 1인당호�
 # ── 3교시 ──
 python common_params.py      # 1절
 python fallback.py           # 실습 3
-python streaming.py          # 실습 4  ★ → 비교표의 '첫 토큰까지' 칸 완성
+python streaming.py          # 실습 4  ★ → 첫 토큰까지 · 총 시간 측정
 ```
 
 ## 주의

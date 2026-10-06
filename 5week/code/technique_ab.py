@@ -100,26 +100,27 @@ def demo_zero_shot() -> dict:
     title("① Zero-shot — 할 일과 '답 후보'를 지정하면 달라진다")
     print("  같은 문장을 두 가지 방식으로 물어봅니다 —", SENTENCE)
 
-    # A) 기법 없음 — 그냥 말을 건다
+    # A) 그냥 말을 건다 — 예시가 없는 것은 B와 같다(둘 다 Zero-shot)
     a_prompt = ChatPromptTemplate.from_messages([("human", "{sentence}\n이 문장 어때?")])
     a_out = run(a_prompt, {"sentence": SENTENCE})
 
-    # B) Zero-shot — 할 일 + 답 후보(레이블 공간)를 지정한다 ★
+    # B) 할 일 + 답 후보(레이블 공간)를 지정한다 ★
     #    가이드 원문 프롬프트를 그대로 옮긴 형태
     b_prompt = ChatPromptTemplate.from_messages(
         [("human", "텍스트를 중립, 부정 또는 긍정으로 분류합니다.\n\n텍스트: {sentence}\n감정:")]
     )
     b_out = run(b_prompt, {"sentence": SENTENCE})
 
-    arm("A · 기법 없음 — 그냥 물어보기", a_out)
-    arm("B · Zero-shot — 할 일과 답 후보 지정 ★", b_out)
+    arm("A · 그냥 물어보기 (예시 없음)", a_out)
+    arm("B · 할 일과 답 후보 지정 (예시 없음) ★", b_out)
 
     print()
     print(f"  글자 수      A {len(a_out):>4}자   →   B {len(b_out):>4}자")
     print(f"  레이블만인가 A {'예' if a_out in LABELS else '아니오':<4}   →   B {'예' if b_out in LABELS else '아니오'}")
     print()
-    print("  ★ 모델을 바꾼 것이 아닙니다. '무엇을 할지'와 '답 후보'를 적어 준 것뿐입니다.")
-    return {"기법": "① Zero-shot", "A": f"{len(a_out)}자", "B": f"{len(b_out)}자", "본 것": "출력 길이·형식"}
+    print("  ★ A·B 둘 다 예시가 없습니다(둘 다 Zero-shot). 차이는 지시를 분명히 했느냐입니다.")
+    print("    모델을 바꾼 것이 아닙니다. '무엇을 할지'와 '답 후보'를 적어 준 것뿐입니다.")
+    return {"기법": "① Zero-shot", "A": f"{len(a_out)}자", "B": f"{len(b_out)}자", "본 것": "출력 길이·형식 (둘 다 예시 없음)"}
 
 
 # ══════════════════════════════════════════════════════════════════

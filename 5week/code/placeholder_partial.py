@@ -11,15 +11,15 @@
     {question}                        문자열 하나를 받는 자리
     MessagesPlaceholder("history")    메시지 '여러 개' 가 들어갈 자리  ★
 
-★ 오늘은 자리를 비워 두는 것까지만 한다.
-  이 자리를 누가 채워 주느냐 = 메모리 → 11주차(대화형 RAG) · 13주차(에이전트)
+★ 오늘은 자리만 만든다 — 채우는 것은 메모리의 몫.
+  지난 대화를 저장했다가 이 자리에 자동으로 넣어 주는 장치 = 메모리 → 11주차(대화형 RAG) · 13주차(에이전트)
   지금은 빈 리스트 [] 를 넣어도 정상 동작한다.
 
 실행:
     python placeholder_partial.py
 """
 
-from datetime import date
+from datetime import date, datetime
 
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -106,14 +106,17 @@ def demo_partial() -> None:
         ]
     )
 
-    # ⚠️ partial(today=date.today()) 처럼 '값' 을 넘기면
-    #    프로그램이 켜진 순간의 날짜로 굳는다. 서버가 며칠 떠 있으면 날짜가 안 바뀐다.
-    frozen = dated_prompt.partial(role="파이썬", today=date.today().isoformat())
+    # '값' 을 넘기면 partial 을 부른 순간 한 번 계산되어 고정된다 — 바뀌지 않는 값에 쓴다.
+    fixed = dated_prompt.partial(role="파이썬", today=date.today().isoformat())
 
-    # ✅ '함수' 를 넘기면 매 호출마다 계산된다.
+    # ★ '함수' 를 넘기면 invoke 할 때마다 새로 계산된다 — 시간을 동적으로 채울 수 있다.
+    #    서버를 며칠 켜 두어도 날짜가 저절로 넘어간다.
     live = dated_prompt.partial(role="파이썬", today=lambda: date.today().isoformat())
 
-    for label, p in [("굳음 (값)", frozen), ("살아있음 (함수) ★", live)]:
+    # 응용 — 현재 시각까지 동적으로
+    clock = dated_prompt.partial(role="파이썬", today=lambda: datetime.now().strftime("%Y-%m-%d %H:%M"))
+
+    for label, p in [("고정 (값)", fixed), ("동적 (함수) ★", live), ("동적 (시각까지)", clock)]:
         print(f"   {label:20s} {p.invoke({'question': '...'}).to_messages()[0].content}")
 
     print()

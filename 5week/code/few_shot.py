@@ -78,10 +78,7 @@ def main() -> None:
         n_msgs = len(build_prompt(EXAMPLES[:k]).invoke({"text": "..."}).to_messages())
         print(f"  예시 {k}개 → 전달 메시지 {n_msgs}개")
     print()
-    print("  문자열에 박아 넣었다면 이 실험을 하려고 프롬프트를 3벌 만들어야 했다.")
-    print()
-    print("💡 입력에 따라 예시를 골라 넣는 것(SemanticSimilarityExampleSelector)도 가능하다.")
-    print("   다만 임베딩 유사도(2주차) + 벡터 저장소(11주차)가 필요하다 → 11주차에 재료가 갖춰진다.")
+    print("  문자열로 고정했다면 이 실험을 하려고 프롬프트를 3벌 만들어야 했다.")
 
 
 if __name__ == "__main__":

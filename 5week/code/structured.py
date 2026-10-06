@@ -49,7 +49,7 @@ def demo_validation() -> None:
     """검증이 '언제' 일어나는지 먼저 본다 (2-2절)."""
     from pydantic import ValidationError
 
-    print("── Pydantic 검증은 이 자리에서 터진다 ──────")
+    print("── Pydantic 검증은 이 자리에서 오류가 난다 ──────")
     cases = [
         ("정상", dict(product="이어폰", rating=4, summary="배터리 우수")),
         ("타입 틀림", dict(product="이어폰", rating="4점", summary="...")),
@@ -64,8 +64,8 @@ def demo_validation() -> None:
             print(f"  {label:10s} ❌ ValidationError ({e.error_count()}건)")
 
     print()
-    print("  📌 실패가 뒤로 미뤄지지 않고 '여기서' 터진다.")
-    print("     1교시의 '한참 뒤에 터지는 조용한 실패' 가 호출 직후로 앞당겨졌다.")
+    print("  📌 실패가 뒤로 미뤄지지 않고 '여기서' 오류가 난다.")
+    print("     1교시의 '한참 뒤에 오류가 나는 조용한 실패' 가 호출 직후로 앞당겨졌다.")
 
 
 def main() -> None:

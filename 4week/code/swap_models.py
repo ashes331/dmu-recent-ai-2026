@@ -265,7 +265,6 @@ def print_summary(rows: list, names: list, has_key: bool) -> None:
         print(f"  속도 · 총 소요 (과제 ①)    : {first['net']:.1f}초  ← 로딩을 뺀 값")
         print(f"  속도 · 로딩 (과제 ①)       : {fmt(first['load']) + '초' if is_local else '해당 없음'}")
         print(f"  속도 · 생성 속도 (평균)    : {'≈' if first['approx'] else ''}{fmt(avg_tps)} 토큰/초")
-        print(f"  속도 · 첫 토큰까지         : (3교시 streaming.py)")
         print(f"  비용 · 입력/출력 (과제 ①)  : {first['input_tokens']} / {first['output_tokens']}")
         if is_local and has_key:
             print("  비용 · 1회 / 한 달         : 0원 (호출당 — 전기 · 장비 비용은 별도)")
@@ -277,7 +276,7 @@ def print_summary(rows: list, names: list, has_key: bool) -> None:
             print("  비용                       : 측정 불가 (usage_metadata 없음)")
         print()
 
-    print("[대기] '첫 토큰까지'는 invoke 로는 잴 수 없습니다 → 3교시 streaming.py 에서 채웁니다.  ★")
+    print("[참고] '첫 토큰까지'는 invoke 로는 잴 수 없습니다 → 3교시 streaming.py 에서 잽니다.")
     print("[속도] 로컬은 load_duration 을 뺀 값입니다. 두 번 실행하지 않아도 됩니다.")
     print("       OpenAI 의 토큰/초(≈)는 전체 시간으로 나눈 값이라 네트워크 시간이 섞여 낮게 나옵니다.")
     print("[비용] PRICE_* 가 수업일 단가인지 확인하세요. 내 시나리오로 다시 계산하려면:")

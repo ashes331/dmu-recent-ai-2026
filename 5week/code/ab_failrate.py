@@ -95,8 +95,6 @@ def run_a() -> str | None:
         Review(**data)  # ★ B와 같은 잣대로 검증한다
     except ValidationError as e:
         return f"스키마 불일치({e.error_count()}건)"  # 타입 · 필드명 · 범위
-    except TypeError:
-        return "필드명 불일치"
     return None
 
 
@@ -144,7 +142,6 @@ def main() -> None:
   A의 실패율 > B의 실패율      부탁은 확률, 스키마는 계약 ★
   A의 실패 사유가 제각각       앞말·코드펜스·타입·필드명 — 예외 처리를 몇 개나 짜야 하나
   B도 0%가 아닐 수 있음 ⚠️     스키마도 만능은 아니다 (아래)
-  B의 실패는 '즉시' 예외       A의 실패는 한참 뒤에 터진다
 
 ⚖️ B가 0%가 아니어도 당황하지 말 것 — 오히려 더 배울 것이 많은 결과다.
 
