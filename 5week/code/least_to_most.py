@@ -1,11 +1,11 @@
-"""[3교시 / 실습 3] ★★ Least-to-Most — 쪼개고 · 순서대로 풀고 · 합친다
+"""[3교시 / 실습 3] ★★ Least-to-Most — 나누고 · 순서대로 풀고 · 합친다
 
 ❌ 한 번에:
    "이 제품 리뷰 50건을 읽고, 반복되는 불만을 찾고, 그 불만의 원인을 추정하고,
     개선 우선순위를 정해서 보고서를 써라."
    → 앞의 지시를 하다가 뒤를 잊는다 / 근거 없이 결론부터 쓴다 / 중간을 검증할 수 없다
 
-✅ 쪼개서 (Least-to-Most):
+✅ 나눠서 (Least-to-Most):
    ① 반복되는 불만은 무엇인가?          ← 쉽다. 사실 추출
         │  (①의 답을 근거로)
    ② 각 불만의 원인은?                  ← ①이 있어야 답할 수 있다
@@ -16,24 +16,31 @@
 
    얻는 것 : 정확도(앞 결과가 근거) / 검증 가능성(어디서 틀렸는지 보임) / 재사용
 ⚠️ 대가도 있다 : 호출이 1회 → N+2회. 시간과 비용이 배로 든다.
-   "쪼갤수록 좋다" 가 아니라 "한 번에 안 되는 문제만 쪼갠다".
+   "나눌수록 좋다" 가 아니라 "한 번에 안 되는 문제만 나눈다".
 
-★ 이 파일이 6주차 [과제 2] 의 대상이다.
+★ 이 파일이 6주차 LangSmith 실습의 대상이다.
   단계가 여러 개여서 LangSmith 추적 화면이 풍성하게 나온다. 반드시 커밋할 것.
 
 실행:
-    python least_to_most.py
+    python least_to_most.py           # 로컬 Ollama (gemma3:4b)
+    python least_to_most.py openai    # (추가) OpenAI gpt-4o-mini — .env 에 OPENAI_API_KEY 필요
 """
 
+import os
+import sys
 from typing import List
 
+from dotenv import load_dotenv
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
 
+load_dotenv()  # (추가) .env 에서 OPENAI_API_KEY 를 읽는다
+
 MODEL = "gemma3:4b"
+OPENAI_MODEL = "gpt-4o-mini"  # (추가) python least_to_most.py openai 로 실행할 때
 TEMP = 0  # ★ 분해·풀이는 낮은 온도 (Self-Consistency 는 반대)
 
 PROBLEM = (
@@ -41,24 +48,43 @@ PROBLEM = (
     "원인을 진단하고 개선안을 우선순위와 함께 제시하라."
 )
 
-llm = ChatOllama(model=MODEL, temperature=TEMP)
+
+# (추가) 모델 고르기 — 바뀌는 것은 llm 한 줄뿐이고, 아래 체인은 그대로다 ★
+def build_llm():
+    if len(sys.argv) > 1 and sys.argv[1] == "openai":
+        if not os.getenv("OPENAI_API_KEY"):
+            sys.exit("[중단] OPENAI_API_KEY 가 없습니다. .env 에 키를 넣고 다시 실행하세요.")
+        from langchain_openai import ChatOpenAI  # 키가 있을 때만 불러온다
+
+        print(f"[모델] OpenAI {OPENAI_MODEL}")
+        return ChatOpenAI(model=OPENAI_MODEL, temperature=TEMP)
+    print(f"[모델] 로컬 {MODEL}")
+    return ChatOllama(model=MODEL, temperature=TEMP)
+
+
+llm = build_llm()
 
 
 # ── ① 분해기 — 하위 질문 목록을 '구조화 출력' 으로 받는다 ★ ─────
 class SubQuestions(BaseModel):
     """원 문제를 풀기 위해 순서대로 답해야 할 하위 질문들."""
 
-    questions: List[str] = Field(description="쉬운 것부터 어려운 순서로 3~4개")
+    # (추가) min_length·max_length — 없으면 작은 모델이 빈 목록 [] 을 돌려준다
+    #        (빈 목록도 스키마상 '맞는 답' 이라서). 개수를 스키마로 강제한다 ★
+    questions: List[str] = Field(
+        description="쉬운 것부터 어려운 순서로 3~4개", min_length=3, max_length=4
+    )
 
 
 decompose_prompt = ChatPromptTemplate.from_messages(
     [
-        ("system", "너는 문제를 잘게 쪼개는 조교다. 문제를 직접 풀지 마라."),
+        ("system", "너는 문제를 잘게 나누는 조교다. 문제를 직접 풀지 마라."),
         ("human", "다음 문제를 풀기 위해 순서대로 답해야 할 하위 질문으로 나눠라.\n\n{problem}"),
     ]
 )
 decomposer = decompose_prompt | llm.with_structured_output(SubQuestions)
 
+print("**** decomposer : ",decomposer)
 # ⚠️ 분해 결과가 엉망일 때 고칠 곳은 코드가 아니라 SubQuestions 의 description 이다.
 #    (2교시에서 말한 "description 이 곧 프롬프트")
 
@@ -148,9 +174,9 @@ def main() -> None:
   assign 이 없으면              problem 이 사라져 뒷단계가 깨진다 (일부러 지워 보여도 좋다)
 
 💡 한 걸음 더: 같은 문제를 '한 번에' 묻는 단일 프롬프트와 나란히 실행해 비교하라.
-   "쪼갠 쪽이 근거가 있다" 가 눈으로 보이면 이 절이 완성된다.
+   "나눈 쪽이 근거가 있다" 가 눈으로 보이면 이 절이 완성된다.
 
-📌 이 체인이 6주차 [과제 2] 의 대상이다. 반드시 커밋할 것.
+📌 이 체인이 6주차 LangSmith 실습의 대상이다. 반드시 커밋할 것.
 """)
 
 

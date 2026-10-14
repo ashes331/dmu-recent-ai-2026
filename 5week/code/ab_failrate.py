@@ -37,7 +37,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field, ValidationError
 
-MODEL = "gemma3:4b"
+MODEL = "gemma3:1b"
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 20  # 반복 횟수
 TEMP = 0.7  # ★ 0이면 매번 같은 답 → 차이가 안 보인다
 

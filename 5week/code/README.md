@@ -22,7 +22,7 @@
 | 기록 | — | [`RESULTS.md`](RESULTS.md) | 실습 2·4의 **측정 결과 기록표** |
 
 > 저장소에서는 `week05/` 경로에 두고 작업합니다.
-> **`least_to_most.py` 가 6주차 [과제 2]("5주차 체인에 LangSmith 추적 적용")의 대상**입니다.
+> **`least_to_most.py` 가 6주차 LangSmith 실습("5주차 체인에 추적 적용")의 대상**입니다.
 
 ## 사전 준비
 
@@ -78,6 +78,7 @@ python ab_failrate.py 10       #   시간이 빠듯하면 N=10
 # 3교시
 python runnable_basics.py      # 1절
 python least_to_most.py        # 실습 3  ★★
+python least_to_most.py openai # (추가) 실습 3 을 OpenAI gpt-4o-mini 로 (.env 에 OPENAI_API_KEY)
 python self_consistency.py 0   # 실습 4 — 먼저 temp=0 (만장일치를 보여준다) ★
 python self_consistency.py     # 그다음 temp=0.8 (표가 갈린다)
 
@@ -105,7 +106,7 @@ python chain_to_slack.py full           #   3교시 분해 체인 + 슬랙 (LLM 
   실습실 모델이 다르면 **이 한 줄만** 고치면 됩니다.
 - `with_structured_output()` 뒤에 `| StrOutputParser()` 를 **붙이지 마십시오.**
   객체가 다시 문자열로 뭉개집니다.
-- 오늘 만든 체인은 **반드시 커밋**하세요. 6주차 과제 2의 입력물입니다.
+- 오늘 만든 체인은 **반드시 커밋**하세요. 6주차 LangSmith 실습의 입력물입니다.
 - **(추가)** `.env` 는 **절대 커밋 금지**입니다. 토큰이 공개 저장소에 올라가면
   봇이 자동으로 찾아내고, 슬랙도 감지 즉시 토큰을 무효화합니다.
   노출했다면 숨기지 말고 **Regenerate** 하는 것이 정답입니다.

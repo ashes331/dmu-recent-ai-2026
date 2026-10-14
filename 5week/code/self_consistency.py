@@ -27,6 +27,7 @@
     python self_consistency.py          # 그다음 기본값 0.8
 """
 
+import re
 import sys
 from collections import Counter
 
@@ -58,11 +59,25 @@ class Solution(BaseModel):
     """단계별 추론과 최종 답."""
 
     reasoning: str = Field(description="단계별 풀이 과정")
-    answer: str = Field(description="최종 답만. 숫자면 단위 없이 숫자만")
+    answer: str = Field(description="최종 답만. 숫자면 단위 없이 숫자 하나만 (예: 53). 풀이는 쓰지 않는다")
 
 
 # ★ answer 를 '단위 없이 숫자만' 으로 강제하는 것이 중요하다.
 #   "17개" / "17 개" / "답은 17" 이 섞이면 Counter 가 다른 답으로 센다.
+#   ⚠️ 그래도 작은 모델은 answer 칸에 "}53" 이나 풀이 전체를 넣곤 한다.
+#      → pick() 으로 마지막 숫자만 뽑아서 센다.
+
+
+def pick(text: str) -> str:
+    """answer 칸에서 셀 수 있는 답만 뽑는다 — 숫자가 있으면 마지막 숫자."""
+    nums = re.findall(r"-?\d+(?:\.\d+)?", text)
+    return nums[-1] if nums else " ".join(text.split())[:30]
+
+
+def one_line(text: str, width: int) -> str:
+    """줄바꿈을 없애고 width 글자로 자른다 — 결과 화면을 한 줄로 유지."""
+    text = " ".join(text.split())
+    return text if len(text) <= width else text[:width] + "..."
 
 
 cot_prompt = ChatPromptTemplate.from_messages(
@@ -89,10 +104,10 @@ def main() -> None:
 
     # ── ② 답만 뽑아 센다 ──────────────────────────────────────
     results = [r for r in results if r is not None]
-    answers = [r.answer.strip() for r in results]
+    answers = [pick(r.answer) for r in results]
 
-    for i, r in enumerate(results, 1):
-        print(f"[{i}] 답={r.answer.strip():>10s}   근거={r.reasoning[:60]}...")
+    for i, (r, a) in enumerate(zip(results, answers), 1):
+        print(f"[{i}] 답={a:>6s}   원문={one_line(r.answer, 20):<23s}  근거={one_line(r.reasoning, 30)}")
 
     votes = Counter(answers)
     final, count = votes.most_common(1)[0]

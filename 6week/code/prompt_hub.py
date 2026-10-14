@@ -18,11 +18,10 @@ Git 으로 버전 관리는 됩니다. 그런데 문제가 남습니다.
 
 ⚖️ 다만 만능은 아닙니다. 마지막 절에서 대가를 짚습니다.
 
-🔶🔶 이 파일은 이 차시에서 가장 깨지기 쉬운 코드입니다.
-     push_prompt / pull_prompt 의 인자 이름과 langchain.hub 쪽 함수(hub.pull)는
-     langsmith 버전에 따라 다릅니다.
-     ★ 수업 전날 실습실 PC 에서 반드시 1회 실행해 동작하는 형태로 확정하십시오.
-       여기서 막히면 이 절이 통째로 멈춥니다.
+⚠️ 이 파일은 이 차시에서 가장 깨지기 쉬운 코드입니다.
+   push_prompt / pull_prompt 의 인자 이름과 langchain.hub 쪽 함수(hub.pull)는
+   langsmith 버전에 따라 다릅니다.
+   에러가 나면 메시지를 그대로 캡처해 질문하세요.
 
 실행:
     python prompt_hub.py
@@ -70,8 +69,8 @@ def push(obj, label: str) -> str | None:
         return url
     except Exception as e:  # noqa: BLE001
         print(f"  [X] {label} 등록 실패 — {type(e).__name__}: {e}")
-        print("      🔶 langsmith 버전에 따라 인자 이름이 다릅니다.")
-        print("         client.push_prompt 의 시그니처를 확인하십시오:")
+        print("      ⚠️ langsmith 버전에 따라 인자 이름이 다릅니다.")
+        print("         client.push_prompt 의 시그니처를 확인하세요:")
         print("             help(client.push_prompt)")
         return None
 
@@ -82,7 +81,7 @@ def show_commits() -> None:
         commits = list(client.list_prompt_commits(NAME, limit=5))
     except Exception as e:  # noqa: BLE001
         print(f"  [!] 커밋 목록을 못 읽었습니다 — {type(e).__name__}: {e}")
-        print("      웹의 Prompts → 해당 프롬프트 → Commits 탭에서 확인하십시오.")
+        print("      웹의 Prompts → 해당 프롬프트 → Commits 탭에서 확인하세요.")
         return
 
     print("  버전 이력 (최근 5건) ★")
@@ -98,7 +97,7 @@ def pull_and_run() -> None:
         # loaded = client.pull_prompt(f"{NAME}:<커밋해시>")   # 특정 버전 고정 ★
     except Exception as e:  # noqa: BLE001
         print(f"  [X] 불러오기 실패 — {type(e).__name__}: {e}")
-        print("      🔶 소유자 접두사가 필요할 수 있습니다: '<내계정>/review-analyzer'")
+        print("      ⚠️ 소유자 접두사가 필요할 수 있습니다: '<내계정>/review-analyzer'")
         return
 
     print(f"  [O] 불러온 객체 타입: {type(loaded).__name__}")

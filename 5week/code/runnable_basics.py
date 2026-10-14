@@ -157,7 +157,7 @@ def demo_parallel() -> None:
     #   both = {"summary": summary_chain, "keywords": keyword_chain}
 
     print("── RunnableParallel — 다른 체인들을 동시에 ─")
-    result = both.invoke({"text": "Least-to-Most 는 큰 문제를 하위 질문으로 쪼개 순서대로 푼다."})
+    result = both.invoke({"text": "Least-to-Most 는 큰 문제를 하위 질문으로 나눠 순서대로 푼다."})
     for k, v in result.items():
         print(f"   {k:10s} {str(v)[:70]}")
 

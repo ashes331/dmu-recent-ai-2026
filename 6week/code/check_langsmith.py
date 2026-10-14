@@ -6,7 +6,7 @@
     - 코드에서는 "이름으로만" 참조한다
     - 값 자체는 절대 화면에 출력하지 않는다  ★  (오늘은 캡처를 제출합니다!)
 
-⚠️ 이 파일을 먼저 돌리게 하십시오.
+⚠️ 이 파일을 가장 먼저 돌리세요.
    trace_on.py 를 돌렸는데 목록이 비어 있으면 원인이 셋 중 하나인데,
    그 셋을 여기서 미리 갈라 줍니다.
 
@@ -21,7 +21,7 @@ from dotenv import load_dotenv
 # ★ 반드시 파일 맨 위. 아래에 있으면 라이브러리가 이미 값을 읽은 뒤라 안 먹습니다.
 load_dotenv()
 
-# 현재 권장 이름 / 예전 이름 — 둘 다 확인해 준다 🔶
+# 현재 권장 이름 / 예전 이름 — 둘 다 확인해 준다
 NEW_NAMES = ["LANGSMITH_TRACING", "LANGSMITH_API_KEY", "LANGSMITH_PROJECT"]
 OLD_NAMES = ["LANGCHAIN_TRACING_V2", "LANGCHAIN_API_KEY", "LANGCHAIN_PROJECT"]
 
@@ -77,7 +77,7 @@ def diagnose(found: dict[str, str]) -> None:
 
     # ② 키 — 가장 흔한 사고가 따옴표·공백입니다
     if not key:
-        print("    [X] API 키가 없습니다. Settings → API Keys 에서 발급하십시오.")
+        print("    [X] API 키가 없습니다. Settings → API Keys 에서 발급하세요.")
     else:
         if key != key.strip():
             print("    [X] 키 앞뒤에 공백이 있습니다 ⚠️  → .env 에서 지우십시오.")
@@ -85,7 +85,7 @@ def diagnose(found: dict[str, str]) -> None:
             print("    [X] 키가 따옴표로 감싸여 있습니다 ⚠️  → 따옴표 없이 붙여넣습니다.")
         elif not key.startswith("lsv2_"):
             print(f"    [!] 키가 lsv2_ 로 시작하지 않습니다 (현재: {key[:5]}...)")
-            print("        형식이 바뀌었을 수 있습니다. 발급 화면을 다시 확인하십시오. 🔶")
+            print("        형식이 바뀌었을 수 있습니다. 발급 화면을 다시 확인하세요.")
         else:
             print("    [O] 키 형식이 정상으로 보입니다.")
 
@@ -137,7 +137,7 @@ def main() -> None:
 
     python trace_on.py
 
-⚠️ .env 를 고쳤는데 값이 안 바뀌면 → 터미널을 새로 열고 다시 실행하십시오.
+⚠️ .env 를 고쳤는데 값이 안 바뀌면 → 터미널을 새로 열고 다시 실행하세요.
    load_dotenv() 는 이미 셸에 있는 환경변수를 기본적으로 덮어쓰지 않습니다. ★
 
 ⚠️ 마지막으로 한 번 더:

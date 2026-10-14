@@ -1,6 +1,5 @@
 # 6주차 실습 패키지 — LangSmith 추적과 디버깅
-# 🔶 버전은 학기 시작 시점의 안정 버전으로 확정해 고정 배포할 것
-#    (LangChain·LangSmith 는 버전 변화가 빠릅니다)
+# LangChain·LangSmith 는 버전 변화가 빠릅니다
 
 langchain
 langchain-core
@@ -12,9 +11,13 @@ pydantic
 #   langsmith 는 langchain 의존성으로 이미 들어와 있습니다.
 #   명시해 두면 버전 고정이 쉬워 남겨 둡니다.
 #   ⚠️ 단, prompt_hub.py 의 push_prompt/pull_prompt 는 버전에 따라
-#      인자 이름이 다릅니다. 수업 전날 실습실 PC에서 반드시 1회 실행해
-#      동작하는 버전으로 고정하십시오. ★
+#      인자 이름이 다릅니다. 에러가 나면 메시지를 캡처해 질문하세요. ★
 langsmith
 
 # ⚠️ 대비책 — 로컬 모델에서 토큰 수가 안 잡힐 때 OpenAI로 대체
-# langchain-openai
+# (추가) 4교시 슬랙 봇의 openai 백엔드도 이것을 씁니다 — 주석을 풀었습니다
+langchain-openai
+
+# ── (추가) 4교시 Slack Socket Mode 봇 ──
+# slack_bolt 가 slack_sdk(5주차)를 함께 설치합니다. 웹소켓도 추가 패키지 없이 됩니다.
+slack_bolt

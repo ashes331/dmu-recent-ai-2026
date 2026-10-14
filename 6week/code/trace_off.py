@@ -1,4 +1,4 @@
-"""[1교시 / 2-5] ★ 끄는 법 — 반드시 시연하십시오.
+"""[1교시 / 2-5] ★ 끄는 법 — 반드시 한 번 돌려 보세요.
 
 ⚠️⚠️ 추적을 켜면 프롬프트와 응답이 외부 서비스로 전송됩니다.
 
@@ -8,10 +8,10 @@
     공개 문서               회사 기밀·미공개 자료
     직접 만든 테스트 데이터  실제 고객 데이터
 
-  짚어줄 말: "4주차에 배운 보안 기준을 기억하십니까? 로컬 모델을 쓰면
-             데이터가 안 나간다고 했었죠. 추적을 켜면 그 이점이 사라집니다."
+  4주차에 배운 보안 기준을 떠올려 보세요. 로컬 모델을 쓰면 데이터가 밖으로
+  나가지 않는다고 했습니다. 추적을 켜면 그 이점이 사라집니다.
 
-📌 미니 프로젝트에서 민감한 데이터를 다루는 학생은 '끌 줄' 알아야 합니다.
+📌 미니 프로젝트에서 민감한 데이터를 다룬다면 '끌 줄' 알아야 합니다.
 
 이 파일은 같은 질문을 3번 던집니다.
 그런데 LangSmith 목록에는 2건만 찍혀야 정상입니다. ★
@@ -64,7 +64,7 @@ def main() -> None:
         with tracing_context(enabled=False):
             print("   ", chain.invoke({"question": Q + " (이 실행은 기록되지 않아야 한다)"}))
     except ImportError:
-        # 🔶 langsmith 버전에 따라 위치가 다릅니다. 수업 전날 확인하십시오.
+        # langsmith 버전에 따라 위치가 다릅니다 — 예전 버전용 대체 경로
         from langsmith.run_helpers import tracing_context  # type: ignore[no-redef]
 
         with tracing_context(enabled=False):
@@ -93,11 +93,10 @@ def main() -> None:
   구간        with tracing_context(enabled=False):     민감 데이터 구간만
   프로젝트    LANGSMITH_PROJECT 를 바꿔 격리           섞이는 것만 막고 싶을 때
 
-⚠️ 강의안에 적힌  chain.invoke(x, config={"callbacks": []})  는
+⚠️ 인터넷 예제에 자주 보이는  chain.invoke(x, config={"callbacks": []})  는
    버전에 따라 '기대대로 꺼지지 않습니다'. 환경변수로 추적이 켜져 있으면
    프레임워크가 추적기를 다시 붙이기 때문입니다.
-   → 확실히 끄려면 위의 tracing_context 나 환경변수를 쓰십시오. ★
-   🔶 수업 전날 실습실 버전에서 한 번 확인해 어느 쪽을 가르칠지 확정하십시오.
+   → 확실히 끄려면 위의 tracing_context 나 환경변수를 쓰세요. ★
 
 💡 실무 습관: 개발할 때 켜고, 대량 실행할 때 끕니다.
 """)

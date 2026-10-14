@@ -12,7 +12,8 @@ pydantic
 
 # ⚠️ 대비책 — 로컬 모델에서 with_structured_output 이 끝내 안 될 때
 #    실습 1·2를 OpenAI로 진행합니다 (4주차에 받은 키를 씁니다).
-# langchain-openai
+# (추가) 실습 3 least_to_most.py 의 openai 모드에서도 씁니다 → 설치합니다.
+langchain-openai
 
 # ── (추가) 4교시 Slack API ★ ─────────────────────────────────
 # 공식 파이썬 SDK. ⚠️ slackclient 는 구버전이므로 설치하지 말 것.

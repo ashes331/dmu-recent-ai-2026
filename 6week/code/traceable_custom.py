@@ -36,7 +36,7 @@ from langchain_ollama import ChatOllama  # noqa: E402
 from langsmith import traceable  # ★ langchain 이 아니라 langsmith  # noqa: E402
 
 MODEL = "gemma3:4b"
-LIMIT = int(sys.argv[1]) if len(sys.argv) > 1 else 500  # ★ 50 으로 바꿔 보게 한다
+LIMIT = int(sys.argv[1]) if len(sys.argv) > 1 else 500  # ★ 50 으로 바꿔 보세요
 
 # ── 체인 (5주차 방식 그대로) ────────────────────────────────────
 prompt = ChatPromptTemplate.from_messages(
@@ -128,7 +128,7 @@ def main() -> None:
 
 무엇을 관찰할 것인가
 
-  관찰 항목                짚어줄 말
+  관찰 항목                의미
   ──────────────────────────────────────────────────────────────
   내 함수가 트리에 나타남   "이제 전처리 버그도 여기서 잡습니다"
   전처리 Run 의 Output      잘린 결과가 실물로 보인다 ★
