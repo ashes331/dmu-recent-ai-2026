@@ -51,7 +51,7 @@ git check-ignore -v .env            # ★ 출력이 나와야 안전합니다 �
 | 변수 | 무엇 | 어디서 |
 |---|---|---|
 | `SLACK_BOT_TOKEN` | `xoxb-` — **보내는 선** (5주차에 받은 것) | OAuth & Permissions → Bot User OAuth Token |
-| **`SLACK_APP_TOKEN`** ★ | `xapp-` — **받는 선** (오늘 새로) | Settings → Socket Mode → Enable → Generate |
+| **`SLACK_APP_TOKEN`** ★ | `xapp-` — **받는 선** (오늘 새로) | Basic Information → App-Level Tokens → Generate Token and Scopes |
 | `SLACK_ALLOWED_USERS` | (선택) `openai` 를 쓸 수 있는 멤버 ID | 슬랙 내 프로필 → ⋮ → 멤버 ID 복사 |
 | `OPENAI_API_KEY` | `openai` 로 답할 때 (4주차) | 이미 있음 |
 | `LANGSMITH_*` | 슬랙 질문을 trace 로 남길 때 (6주차) | 이미 있음 |
@@ -62,7 +62,7 @@ git check-ignore -v .env            # ★ 출력이 나와야 안전합니다 �
 
 | # | 어디서 | 무엇을 |
 |---|---|---|
-| ① | Settings → **Socket Mode** | Enable → 토큰 이름(`socket`) 입력 → Generate → `xapp-...` 를 `.env` 의 `SLACK_APP_TOKEN` 에 |
+| ① | Settings → **Socket Mode** · **Basic Information** | Enable Socket Mode 가 켜져 있는지 확인 → Basic Information → App-Level Tokens → Generate Token and Scopes → 이름 `socket` · 스코프 **`connections:write`** 추가 → `xapp-...` 를 `.env` 의 `SLACK_APP_TOKEN` 에 |
 | ② | Features → **Event Subscriptions** | Enable Events → Subscribe to bot events → **`app_mention`** → 페이지 맨 아래 **Save Changes** |
 | ③ | 화면 위 노란 배너 | **재설치(reinstall)** → 허용 — 스코프가 늘었으므로 필수 ★ (안 하면 **에러 없이 조용합니다**) |
 | ④ | 슬랙 채널 | 5주차에 `/invite` 한 `#수업-출력물` 이면 그대로. 아니면 그 채널에서 `/invite @내앱이름` |

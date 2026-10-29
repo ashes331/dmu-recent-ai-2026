@@ -20,10 +20,11 @@
 사전 준비 (5주차에 만든 앱에 네 가지를 더한다 — api.slack.com/apps → 내 앱)
   (5주차 앱이 없으면 README «앱이 없을 때 — 매니페스트로 한 번에» 부터)
 
-  ① Socket Mode 켜기     Settings → Socket Mode → Enable Socket Mode 켜기
-                          → 토큰 이름(예: socket) 입력 → Generate
+  ① Socket Mode 확인     Settings → Socket Mode → Enable Socket Mode 가 켜져 있는지 확인
+                          → Basic Information → App-Level Tokens → Generate Token and Scopes
+                          → 이름 socket · Add Scope → connections:write → Generate
                           → xapp-... 복사 → .env 의 SLACK_APP_TOKEN
-                          (scope 는 connections:write 가 자동으로 붙는다)
+                          (scope 는 직접 넣는다 — 빠뜨리면 연결이 안 된다)
   ② 이벤트 구독          Features → Event Subscriptions → Enable Events 켜기
                           → Subscribe to bot events → Add Bot User Event
                           → app_mention  → Save Changes
