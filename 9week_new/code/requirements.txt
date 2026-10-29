@@ -1,0 +1,18 @@
+# 9주차 실습 패키지 — 3교시 Slack Socket Mode 봇
+# (1·2교시는 이론이라 새로 설치할 것이 없습니다)
+
+langchain
+langchain-core
+langchain-ollama
+python-dotenv
+langsmith
+
+# 봇의 openai 백엔드 (4주차 키 사용)
+langchain-openai
+
+# ★ 오늘 새로 — slack_bolt 가 slack_sdk(5주차)를 함께 설치합니다.
+#   웹소켓(Socket Mode)도 추가 패키지 없이 됩니다.
+slack_bolt
+
+# (추가) tool_flow.py 의 get_time — Windows 에는 시간대 DB 가 없어 ZoneInfo("Asia/Seoul") 이 실패합니다.
+tzdata

@@ -1,0 +1,7 @@
+# 9주차 2교시 보충 — MCP 맛보기
+# 상위 code/requirements.txt 를 이미 설치했다면 이 줄만 추가로 설치됩니다.
+
+# ★ langchain 의 MCP 기능(langchain.mcp)을 켜는 옵션 — fastmcp 가 함께 설치됩니다.
+langchain[mcp]
+langchain-ollama
+python-dotenv
