@@ -30,8 +30,8 @@
 
 ```bash
 # 지금까지 쓰던 가상환경을 그대로 사용합니다
-# Windows
-venv\Scripts\Activate.ps1
+# Git Bash (Windows)
+source venv/Scripts/activate
 # macOS / Linux
 # source venv/bin/activate
 
